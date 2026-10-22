@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}Kelso Rating{% endblock %}</title>
+<meta name="description" content="{% block description %}Kelso: one cross-event rating for WCA speedcubers on the Elo scale, built from official WCA results.{% endblock %}">
+<link rel="icon" href="/static/img/logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/static/css/site.css?v={{ STATIC_V }}">
+<link rel="stylesheet" href="/static/css/cubing-icons.css?v={{ STATIC_V }}">
+{% block head %}{% endblock %}
+</head>
+<body>
+{% from "_macros.html" import flag, icon with context %}
+<header class="top">
+  <div class="wrap top-in">
+    <a class="brand" href="/" aria-label="Kelso rating home">
+      <svg class="brand-cube" id="brand-cube" viewBox="0 0 64 64" aria-hidden="true">{{ LOGO_INNER|safe }}</svg>
+      <span class="brand-word">kelso<small class="hide-sm">rating</small></span>
+    </a>
+    <nav class="nav" aria-label="Main">
+      {% set active = active|default('') %}
+      <a href="/" class="{{ 'on' if active == 'rankings' }}">Rankings</a>
+      <a href="/competitions" class="{{ 'on' if active == 'competitions' }}">Competitions</a>
+      <a href="/calculator" class="{{ 'on' if active == 'calculator' }}">Calculator</a>
+      <a href="/about" class="{{ 'on' if active == 'about' }}">Kelso system</a>
+    </nav>
+    <form class="search" action="/search" role="search">
+      <label class="sr" for="q">Find a competitor</label>
+      <input id="q" name="q" type="search" placeholder="Name or WCA ID" autocomplete="off" value="{{ q|default('') }}">
+    </form>
+  </div>
+</header>
+<main class="wrap">
+{% block main %}{% endblock %}
+</main>
+<footer>
+  <div class="wrap">
+    <div>This information is based on competition results owned and maintained by the World Cube Association, published at
+      <a href="https://www.worldcubeassociation.org/results">worldcubeassociation.org/results</a> as of {{ meta.export_date[:10] }}.</div>
+    <div>Kelso is an independent, non-commercial project and is not affiliated with the WCA. Reference field: base {{ meta.base_id }}
+      · database built {{ meta.built_at[:16]|replace('T', ' ') }} UTC · <a href="/about#data">how the data is gathered</a>
+      · event icons <a href="https://icons.cubing.net">cubing/icons</a> (MIT) · flags <a href="https://flagicons.lipis.dev">flag-icons</a> (MIT)</div>
+  </div>
+</footer>
+<script src="/static/js/cube.js?v={{ STATIC_V }}"></script>
+<script src="/static/js/algs-verified.js?v={{ STATIC_V }}"></script>
+<script src="/static/js/kelso.js?v={{ STATIC_V }}"></script>
+{% block scripts %}{% endblock %}
+</body>
+</html>

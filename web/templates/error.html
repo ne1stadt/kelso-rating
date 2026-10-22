@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}{{ code }} · Kelso{% endblock %}
+{% block main %}
+<div class="loader" style="padding-top:30px">
+  <svg viewBox="0 0 64 64" id="err-cube" aria-hidden="true" style="width:96px;height:96px">{{ LOGO_INNER|safe }}</svg>
+</div>
+<h1 style="text-align:center">{{ code }}</h1>
+<p style="text-align:center" class="muted">{{ detail }}. Try the <a href="/">rankings</a> or search for a competitor above.</p>
+{% endblock %}

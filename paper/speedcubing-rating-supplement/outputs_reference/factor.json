@@ -1,0 +1,160 @@
+{
+ "iterations": 200,
+ "seconds": 69.4,
+ "loadings": {
+  "3x3": 0.965,
+  "2x2": 0.964,
+  "4x4": 1.33,
+  "5x5": 1.352,
+  "6x6": 1.333,
+  "7x7": 1.257,
+  "3BLD": 0.49,
+  "FMC": 0.711,
+  "OH": 1.233,
+  "Clock": 0.651,
+  "Megaminx": 1.056,
+  "Pyraminx": 0.781,
+  "Skewb": 0.818,
+  "Square-1": 0.906,
+  "4BLD": 0.382,
+  "5BLD": 0.328,
+  "MBLD": 0.292
+ },
+ "uniqueness": {
+  "3x3": 0.071,
+  "2x2": 0.161,
+  "4x4": 0.144,
+  "5x5": 0.215,
+  "6x6": 0.3,
+  "7x7": 0.402,
+  "3BLD": 0.853,
+  "FMC": 0.74,
+  "OH": 0.229,
+  "Clock": 0.647,
+  "Megaminx": 0.412,
+  "Pyraminx": 0.425,
+  "Skewb": 0.453,
+  "Square-1": 0.577,
+  "4BLD": 0.91,
+  "5BLD": 0.936,
+  "MBLD": 0.941
+ },
+ "theta_vs_rating": {
+  "rho_all": 0.929,
+  "rho_top1000": 0.525,
+  "top20": 8,
+  "top100": 61
+ },
+ "mean_vs_rating": {
+  "rho_all": 0.948,
+  "rho_top1000": 0.582,
+  "top20": 7,
+  "top100": 52
+ },
+ "theta_vs_mean_top1000": 0.847,
+ "leaders_latent": [
+  {
+   "event": "3x3",
+   "theta": 4.48,
+   "rating_equiv": 3371,
+   "linked_leader": 3472
+  },
+  {
+   "event": "2x2",
+   "theta": 4.24,
+   "rating_equiv": 3180,
+   "linked_leader": 3306
+  },
+  {
+   "event": "5x5",
+   "theta": 4.06,
+   "rating_equiv": 3043,
+   "linked_leader": 3262
+  },
+  {
+   "event": "4x4",
+   "theta": 4.05,
+   "rating_equiv": 3037,
+   "linked_leader": 3298
+  },
+  {
+   "event": "6x6",
+   "theta": 4.04,
+   "rating_equiv": 3030,
+   "linked_leader": 3020
+  },
+  {
+   "event": "OH",
+   "theta": 3.99,
+   "rating_equiv": 2994,
+   "linked_leader": 3369
+  },
+  {
+   "event": "7x7",
+   "theta": 3.94,
+   "rating_equiv": 2955,
+   "linked_leader": 2975
+  },
+  {
+   "event": "Megaminx",
+   "theta": 3.89,
+   "rating_equiv": 2918,
+   "linked_leader": 3066
+  },
+  {
+   "event": "Pyraminx",
+   "theta": 3.58,
+   "rating_equiv": 2706,
+   "linked_leader": 3286
+  },
+  {
+   "event": "Skewb",
+   "theta": 3.58,
+   "rating_equiv": 2703,
+   "linked_leader": 3277
+  },
+  {
+   "event": "Square-1",
+   "theta": 3.47,
+   "rating_equiv": 2634,
+   "linked_leader": 2980
+  },
+  {
+   "event": "Clock",
+   "theta": 2.94,
+   "rating_equiv": 2316,
+   "linked_leader": 3020
+  },
+  {
+   "event": "FMC",
+   "theta": 2.88,
+   "rating_equiv": 2283,
+   "linked_leader": 3050
+  },
+  {
+   "event": "3BLD",
+   "theta": 2.08,
+   "rating_equiv": 1889,
+   "linked_leader": 2955
+  },
+  {
+   "event": "4BLD",
+   "theta": 1.51,
+   "rating_equiv": 1663,
+   "linked_leader": 2892
+  },
+  {
+   "event": "5BLD",
+   "theta": 1.24,
+   "rating_equiv": 1568,
+   "linked_leader": 2888
+  },
+  {
+   "event": "MBLD",
+   "theta": 1.18,
+   "rating_equiv": 1549,
+   "linked_leader": 2840
+  }
+ ],
+ "rho_leader_orders": 0.815
+}

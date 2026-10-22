@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% from "_macros.html" import flag, icon, pager with context %}
+{% set active = 'rankings' %}
+{% block title %}{% if event %}{{ EVENT_NAMES[event] }} · {% endif %}Kelso Rankings{% if region_kind != 'world' %} · {{ region_label }}{% endif %}{% endblock %}
+{% block main %}
+<div class="page-head">
+  <div>
+    <h1>{% if event %}{{ icon(event) }} {{ EVENT_NAMES[event] }}{% else %}Kelso Rankings{% endif %}</h1>
+    <div class="muted small">
+      {% if event %}Event rating: the {{ EVENT_SHORT[event] }} personal best placed on the 3x3 field.{% else %}One rating across all 17 events — event odds against the 3x3 field, summed.{% endif %}
+      {{ '{:,}'.format(total) }} rated{% if region_kind != 'world' %} in {{ region_label }}{% endif %} ·
+      median {{ stats.median|rating }} · <a href="/about#meaning">what the number means</a>
+    </div>
+  </div>
+  <form class="region" method="get" action="/">
+    {% if event %}<input type="hidden" name="event" value="{{ event }}">{% endif %}
+    <label class="sr" for="region">Region</label>
+    <select id="region" name="region" onchange="this.form.submit()">
+      <option value="">World</option>
+      <optgroup label="Continents">
+        {% for c in regions.continents %}<option value="{{ c.id }}" {{ 'selected' if region == c.id }}>{{ c.name }}</option>{% endfor %}
+      </optgroup>
+      <optgroup label="Countries">
+        {% for c in regions.countries %}<option value="{{ c.iso2 }}" {{ 'selected' if region|upper == c.iso2 }}>{{ c.name }}</option>{% endfor %}
+      </optgroup>
+    </select>
+    <noscript><button class="btn">Go</button></noscript>
+  </form>
+</div>
+
+{% set rq = ('&region=' ~ region) if region else '' %}
+<div class="filters">
+  <nav class="events" aria-label="Event">
+    <a href="/?{{ rq[1:] }}" class="{{ 'on' if not event }}" title="Overall Kelso rating">Overall</a>
+    {% for e in EVENTS %}<a href="/?event={{ e }}{{ rq }}" class="{{ 'on' if event == e }}" title="{{ EVENT_NAMES[e] }}">{{ icon(e) }}</a>{% endfor %}
+  </nav>
+</div>
+
+<div class="table-wrap">
+<table class="t">
+  <thead>
+    {% if not event %}
+    <tr><th class="num">#</th><th>Name</th><th class="num">Rating</th><th class="hide-sm">Events <span class="muted" title="Darker icons carry a larger share of the competitor's summed odds">· weight</span></th><th class="num hide-sm">Best event</th><th class="num hide-sm" title="Overall minus best event rating">Breadth</th></tr>
+    {% else %}
+    <tr><th class="num">#</th><th>Name</th><th class="num">Rating</th><th class="num">Result</th><th class="hide-sm">Set at</th></tr>
+    {% endif %}
+  </thead>
+  <tbody>
+  {% for r in rows %}
+    <tr class="{{ 'top3' if r.rank <= 3 }}">
+      <td class="rank num">{{ r.rank|int }}</td>
+      <td class="who">{{ flag(r.country_id) }}<a href="/persons/{{ r.wca_id }}">{{ r.name }}</a></td>
+      {% if not event %}
+      <td class="num rating">{{ r.overall|rating }}</td>
+      <td class="hide-sm"><span class="ev-strip">{% for x in r.events %}<span class="cubing-icon event-{{ x.e }}" style="opacity:{{ '%.2f'|format(0.18 + 0.82 * (x.share ** 0.5)) }}" title="{{ EVENT_SHORT[x.e] }}: {{ x.r|rating }} ({{ '%.0f'|format(x.share * 100) }}% of odds)"></span>{% endfor %}</span></td>
+      <td class="num hide-sm">{% if r.best_event %}{{ icon(r.best_event) }} {{ r.best_rating|rating }}{% endif %}</td>
+      <td class="num hide-sm muted">+{{ (r.overall - r.best_rating)|round|int }}</td>
+      {% else %}
+      <td class="num rating">{{ r.rating|rating }}</td>
+      <td class="num">{{ r.raw|result(event) }}</td>
+      <td class="hide-sm small">{% if r.comp_id %}<a href="/competitions/{{ r.comp_id }}">{{ r.comp_name }}</a>{% endif %}</td>
+      {% endif %}
+    </tr>
+  {% else %}
+    <tr><td colspan="6" class="muted">No rated competitors here.</td></tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div>
+{% macro purl(i) %}/?page={{ i }}{% if event %}&event={{ event }}{% endif %}{{ rq }}{% endmacro %}
+{{ pager(page, pages, purl) }}
+{% endblock %}

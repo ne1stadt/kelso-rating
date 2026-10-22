@@ -1,0 +1,12 @@
+# /etc/systemd/system/kelso-update.service — run by kelso-update.timer
+[Unit]
+Description=Kelso: check the WCA export and rebuild when it is new
+
+[Service]
+Type=oneshot
+User=kelso
+WorkingDirectory=/srv/kelso
+ExecStart=/srv/kelso/.venv/bin/python -m kelso update
+# 75 = rate limited / temporary failure: not an error, the next run retries
+SuccessExitStatus=75
+Nice=10

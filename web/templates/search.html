@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% from "_macros.html" import flag with context %}
+{% block title %}Search · Kelso{% endblock %}
+{% block main %}
+<h1>Search</h1>
+<form action="/search" class="filters" role="search">
+  <input type="search" name="q" value="{{ q }}" placeholder="Name or WCA ID" style="width:320px" autofocus>
+  <button class="btn primary">Search</button>
+</form>
+{% if q %}
+<p class="muted">{{ rows|length }}{{ '+' if rows|length == 100 }} competitor{{ 's' if rows|length != 1 }} matching “{{ q }}”.</p>
+{% if rows %}
+<div class="table-wrap">
+<table class="t">
+  <thead><tr><th>Name</th><th>WCA ID</th><th class="num">Rating</th><th class="num">World rank</th></tr></thead>
+  <tbody>
+  {% for r in rows %}
+  <tr><td class="who">{{ flag(r.country_id) }}<a href="/persons/{{ r.wca_id }}">{{ r.name }}</a></td><td class="muted">{{ r.wca_id }}</td>
+      <td class="num rating">{{ r.overall|rating }}</td><td class="num">{{ r.rank_world|int if r.rank_world }}</td></tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div>
+{% endif %}
+{% endif %}
+{% endblock %}

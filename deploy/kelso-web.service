@@ -1,0 +1,15 @@
+# /etc/systemd/system/kelso-web.service
+[Unit]
+Description=Kelso rating web server
+After=network.target
+
+[Service]
+User=kelso
+WorkingDirectory=/srv/kelso
+ExecStart=/srv/kelso/.venv/bin/python -m kelso serve --host 127.0.0.1 --port 8040 --workers 2
+Restart=always
+# the web process only reads data/db and writes data/cache
+MemoryMax=600M
+
+[Install]
+WantedBy=multi-user.target

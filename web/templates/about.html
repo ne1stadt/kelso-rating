@@ -1,0 +1,230 @@
+{% extends "base.html" %}
+{% from "_macros.html" import icon with context %}
+{% set active = 'about' %}
+{% block title %}The Kelso system · Kelso{% endblock %}
+{% block description %}How the Kelso cross-event speedcubing rating is defined, computed and updated, and what its numbers mean.{% endblock %}
+{% block head %}<link rel="stylesheet" href="/static/katex/katex.min.css">{% endblock %}
+{% block main %}
+<div class="doc">
+  <nav class="toc" aria-label="Contents">
+    <a href="#meaning">What the rating means</a>
+    <a href="#reading">Reading the numbers</a>
+    <a href="#compare">Compared with other rankings</a>
+    <a href="#calculation">How it is calculated</a>
+    <a href="#base">Reference field and updates</a>
+    <a href="#evidence">Evidence</a>
+    <a href="#data">How the data is gathered</a>
+    <a href="#limits">Limitations</a>
+  </nav>
+  <article class="prose">
+    <h1>The Kelso system</h1>
+    <p class="lede">Kelso places every WCA personal best on one scale — the odds, in Elo units, of beating the personal best of a randomly drawn member of the 3x3 field — and adds those odds up across events. This page summarises the construction. The full argument, with validation, uncertainty and sensitivity analyses, is in the paper.</p>
+
+    <div class="download">
+      <div class="doc-ic" aria-hidden="true">PDF</div>
+      <div>
+        <div><a href="/static/files/kelso-rating-paper.pdf" download><strong>A Cross-Event Rating for Speedcubing on the Elo Scale</strong></a></div>
+        <div class="muted small">Full paper · 26 pages · method, validation on 2.09 M finishing orders, uncertainty, sensitivity, appendices</div>
+      </div>
+    </div>
+
+    <h2 id="meaning">What the rating means</h2>
+    <p>Kelso is a <em>composite indicator of career-best standing</em>: a deterministic function of a competitor's personal bests, built to satisfy explicit criteria rather than to estimate a parameter of a model. It is not an estimate of latent ability.</p>
+    <div class="callout">
+      A difference of 400 points in an event rating is a tenfold difference in the odds of beating a random member of the 3x3 field.
+      The overall rating sums those odds across a competitor's events:
+      <div class="eq" data-tex="10^{(R-1200)/400} \;=\; \sum_{e} \omega_e, \qquad \omega_e = \frac{q_e}{1-q_e}"></div>
+      where <span class="tex" data-tex="q_e"></span> is the share of the reference field that the (linked) result in event <span class="tex" data-tex="e"></span> beats.
+    </div>
+    <p>The rating was built to five criteria:</p>
+    <ol>
+      <li><strong>Event scale.</strong> Within an event, a rating is a monotone function of the share of a reference field the result beats, with a stated unit.</li>
+      <li><strong>Common scale.</strong> Events are placed on one reference field by a documented rule, and the strength of that rule is reported for each event.</li>
+      <li><strong>Aggregation.</strong> A higher event rating never lowers the overall rating, entering an event never lowers it, and the overall rating does not depend on the arbitrary origin of the scale.</li>
+      <li><strong>Stability.</strong> A competitor's rating does not change while their own results do not, except at announced renewals of the reference field.</li>
+      <li><strong>Feasibility.</strong> Ratings update within minutes of new results and recompute in full within an hour on one server.</li>
+    </ol>
+    <p>So the rating ranks <strong>demonstrated achievement across events, with breadth credited and no event penalised</strong>, and its differences read as differences in summed odds against the reference field. It is <em>not</em> an estimate of general cubing ability, a probability that one competitor would beat another in some event, or a forecast of results in events not yet entered.</p>
+
+    <h3 id="reading">Reading the numbers</h3>
+    <ul>
+      <li><strong>1200</strong> is the median 3x3 competitor's 3x3 rating. The median <em>overall</em> rating is currently {{ stats.median|rating }}, because the overall rating adds breadth credit for every further event.</li>
+      <li>The top 10%, 1%, 0.1% and 0.01% start at {{ stats.thresholds['0.1']|rating }}, {{ stats.thresholds['0.01']|rating }}, {{ stats.thresholds['0.001']|rating }} and {{ stats.thresholds['0.0001']|rating }}.</li>
+      <li>Two events at equal rating add <span class="tex" data-tex="400\log_{10}2 \approx 120"></span> points to that rating; seventeen equal events add 492. A second event <span class="tex" data-tex="d"></span> points below the first adds <span class="tex" data-tex="400\log_{10}(1+10^{-d/400})"></span>: 17 points at <span class="tex" data-tex="d=400"></span>, 2 points at <span class="tex" data-tex="d=800"></span>.</li>
+      <li>Example from the paper: a 3x3 average of 12.00 rates 1642, a 3BLD single of 3:00 rates 1607; together they rate 1746. Try your own in the <a href="/calculator">calculator</a>.</li>
+      <li>Near the top, each halving of the share of faster competitors adds about 120 points. A 3x3 average of 60, 30, 20, 15, 10, 7 and 5 s rates about 877, 1179, 1345, 1492, 1799, 2255 and 2860.</li>
+    </ul>
+
+    <h3 id="compare">Compared with other rankings</h3>
+    <p>Two community metrics already rank across events. Both fix the weight of events implicitly: a rank counts the same in the 3x3 field of 280,000 competitors as in the 5BLD field of 1,100, and a ratio to the world record depends on how dispersed results are in each event.</p>
+    <div class="table-wrap"><table class="t">
+      <thead><tr><th>Rule</th><th>Overall rating</th><th>Higher event rating never worsens it</th><th>Added event never worsens it</th><th>Shift-equivariant</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Kelso</strong> (log-sum-exp, K = 400)</td><td><span class="tex" data-tex="400\log_{10}\sum 10^{R_e/400}"></span></td><td>yes</td><td>yes</td><td>yes</td></tr>
+        <tr><td>Best event</td><td><span class="tex" data-tex="\max R_e"></span></td><td>yes</td><td>yes</td><td>yes</td></tr>
+        <tr><td>Mean of event ratings</td><td><span class="tex" data-tex="\tfrac1n\sum R_e"></span></td><td>yes</td><td>no</td><td>yes</td></tr>
+        <tr><td>Kinch</td><td><span class="tex" data-tex="\tfrac1{17}\sum 100\,\mathrm{WR}_e/\mathrm{PB}_e"></span></td><td>yes</td><td>yes</td><td>— (ratio scale)</td></tr>
+        <tr><td>Sum of Ranks</td><td><span class="tex" data-tex="\sum \mathrm{rank}_e"></span>, missing = field + 1</td><td>yes</td><td>yes</td><td>— (rank scale)</td></tr>
+      </tbody>
+    </table></div>
+    <p>Kinch and Sum of Ranks charge every missing event, so they place all-round competitors higher; a mean of event ratings penalises adding a weaker event; the best event ignores breadth. Over all competitors every metric agrees closely with Kelso (Spearman 0.95–0.98), because most competitors hold one or two events. At the top they diverge: within the top 1000 the correlation with Kelso is 0.76 for the best event, 0.58 for the mean, 0.33 for Kinch and 0.21 for Sum of Ranks.</p>
+    <p>Among leading competitors Kelso is approximately <span class="tex" data-tex="1200 + 400\log_{10}\sum_e 2N/(2r_e-1)"></span>, where <span class="tex" data-tex="r_e"></span> is the linked rank in event <span class="tex" data-tex="e"></span>: a harmonic sum of inverse ranks — a relative of Sum of Ranks in which a first place counts three times a second place.</p>
+
+    <h3>Event ceilings</h3>
+    <p>The leading rating of each event depends on the size of the reference field and on how far the event's leader is ahead of their common group — not on the difficulty of the achievement. Linking raises the leaders of small fields of fast 3x3 solvers well above their own-field value, but the spread between events remains. Live values from the current database:</p>
+    <div class="table-wrap"><table class="t">
+      <thead><tr><th>Event</th><th class="num">Competitors</th><th class="num">Median rating</th><th class="num">Leader</th><th class="num" title="Overall rank of a competitor holding only this event's leading result">Rank with that result alone</th></tr></thead>
+      <tbody>{% for c in ceilings %}<tr><td>{{ icon(c.e) }} {{ EVENT_SHORT[c.e] }}</td><td class="num">{{ '{:,}'.format(c.n) }}</td><td class="num">{{ c.median|rating }}</td><td class="num rating">{{ c.max|rating }}</td><td class="num">{{ c.rank }}</td></tr>{% endfor %}</tbody>
+    </table></div>
+    <p>Whether a world-leading result in a small, strong field should be worth less than one in the largest field is a normative choice the rating makes through its reference event. A latent-trait placement (paper, §4.4) would widen this spread, not narrow it.</p>
+
+    <h2 id="calculation">How it is calculated</h2>
+    <h3>1 · Personal bests</h3>
+    <p>For each competitor and event: the best average (best mean of three for 6x6, 7x7 and FMC), and the best single for 3BLD, 4BLD, 5BLD and MBLD. An MBLD result is scored as its points plus the unused share of the hour, <span class="tex" data-tex="m = (\text{solved}-\text{missed}) + (3600-t)/3600"></span>, and enters as <span class="tex" data-tex="1/m"></span> so that smaller is better.</p>
+
+    <h3>2 · Event rating</h3>
+    <p>Let <span class="tex" data-tex="q"></span> be the share of the reference field whose personal best a result beats, ties counted as half:</p>
+    <div class="eq" data-tex="R_e = \max\left(0,\; 1200 + 400\,\log_{10}\frac{q}{1-q}\right)"></div>
+    <p>A result outside the field the distribution was estimated from (a linked result, or a new result under a frozen field) is evaluated as a new member: <span class="tex" data-tex="q = 1 - \frac{N F(t) + 1/2}{N+1}"></span>, where <span class="tex" data-tex="F(t)"></span> is the smoothed share of the <span class="tex" data-tex="N"></span> field members at least as fast as <span class="tex" data-tex="t"></span>. This caps the 3x3 ceiling at about 3501.</p>
+
+    <h3>3 · Linking events to the 3x3 field</h3>
+    <p>Raw percentiles are not comparable across events because the fields differ: the median 5BLD solver is a far faster 3x3 solver than the median 3x3 competitor. Every event is placed on the 3x3 field by <em>equipercentile linking</em> through its common group <span class="tex" data-tex="G_e"></span> — the competitors with personal bests in both <span class="tex" data-tex="e"></span> and 3x3:</p>
+    <ol>
+      <li><span class="tex" data-tex="u = F_e(x)"></span>: the position of the result in the common group;</li>
+      <li><span class="tex" data-tex="t = F_3^{-1}(u)"></span>: the 3x3 result at the same position among the same group's 3x3 results;</li>
+      <li><span class="tex" data-tex="q = 1 - (N F_{\mathrm{ref}}(t) + \tfrac12)/(N+1)"></span>: the share of the full 3x3 field that <span class="tex" data-tex="t"></span> beats.</li>
+    </ol>
+    <p>Every distribution is continuized with a Gaussian kernel on log results (kernel equating, von Davier, Holland &amp; Thayer 2004), with Silverman's bandwidth and variance-preserving scaling:</p>
+    <div class="eq" data-tex="F(y) = \frac{1}{n}\sum_{i=1}^{n}\Phi\!\left(\frac{y - a\,y_i - (1-a)\,\bar{y}}{a\,h}\right),\quad a = \sqrt{\frac{\sigma^2}{\sigma^2+h^2}},\quad h = 0.9\,\min\!\left(\sigma,\frac{\mathrm{IQR}}{1.34}\right)n^{-1/5}"></div>
+    <p>Linking assumes that competitors at the same position in the two distributions of a common group are equally strong. Only 2x2 reaches the conventional correlation for a concordance (<span class="tex" data-tex="r \ge 0.866"></span>; 2x2 0.89, 4x4 0.86, OH 0.85); the blindfolded events are far below it (0.19–0.36). For most events the linking is therefore a documented <em>scale alignment</em>, a convention, not a measurement.</p>
+
+    <h3>4 · Aggregation</h3>
+    <p>Requiring that a higher event rating never lowers the overall rating, that events contribute separately as a sum (so entering an event never lowers it), and that adding a constant to every event rating adds it to the overall (independence from the origin 1200) leaves exactly one family of rules — the log-sum-exp (Hardy, Littlewood &amp; Pólya 1934; Aczél 1966):</p>
+    <div class="eq" data-tex="R = K\log_{10}\sum_{e} 10^{R_e/K} \;=\; \underbrace{K\log_{10}\Big(\frac1n\sum_e 10^{R_e/K}\Big)}_{\text{level } M_K} + \underbrace{K\log_{10} n}_{\text{breadth}}"></div>
+    <p>The characterization fixes the form, not <span class="tex" data-tex="K"></span>. Kelso sets <span class="tex" data-tex="K = 400"></span>, the unit of the event scale, because only then is the overall rating the sum of the event odds in the same unit (the identity in the box above). The choice is normative: no contest compares one competitor's results across events, so the overall rating is an Elo-scaled composite rather than an Elo rating. A predictive criterion would pick a much larger <span class="tex" data-tex="K"></span>, which would make a weaker extra event lower the rating for about a quarter of competitors.</p>
+
+    <h3 id="base">Reference field and updates</h3>
+    <p>Event ratings are shares of a field, so they would drift whenever anyone else competes — unchanged personal bests lost a median of 4–30 points per event over 22 months. Following equating practice, the distributions are estimated once on a <strong>base population</strong> and then frozen. New results are rated against the frozen distributions as new members of the field, and the base is renewed annually at an announced date, with the shift of each event published.</p>
+    <ul>
+      <li>A competitor's rating changes only when their own results change; a retired competitor's rating never falls between renewals.</li>
+      <li>The current base is <strong>{{ meta.base_id }}</strong> ({{ '{:,}'.format(base.competitors) }} competitors, 3x3 field <span class="tex" data-tex="N = {{ base.reference_n }}"></span>).</li>
+      <li>The frozen base is stored as one monotone lookup table per event (log result → rating), with knots placed by arc length so they crowd where the rating is steep. Measured against the exact formula, interpolation error stayed below 0.6 points (below 0.01 for 99% of results). The same tables rate new results in the nightly build, in live estimates and in your browser in the <a href="/calculator">calculator</a> (<a href="/api/tables">download</a>).</li>
+      <li>Rating histories are computed against the current base, so a history shows how a competitor's results have accumulated on one fixed scale.</li>
+    </ul>
+    <div class="table-wrap"><table class="t">
+      <thead><tr><th>Constant</th><th>Value</th><th>Role</th></tr></thead>
+      <tbody>
+        <tr><td>Median rating</td><td>1200</td><td>Rating of the median 3x3 competitor (a convention; differences do not depend on it)</td></tr>
+        <tr><td>Unit</td><td>400</td><td>Points per tenfold odds (Elo 1978)</td></tr>
+        <tr><td>Floor</td><td>0</td><td>Lowest event rating; binds for 0.04% of event ratings</td></tr>
+        <tr><td>Reference event</td><td>3x3</td><td>Largest field; common groups with every event</td></tr>
+        <tr><td>Bandwidth</td><td>Silverman (1986)</td><td>Smoothing of every distribution</td></tr>
+        <tr><td>Blindfolded events</td><td>Best single</td><td>WCA ranking basis; field size</td></tr>
+        <tr><td>Result per event</td><td>Personal best</td><td>Career-best estimand</td></tr>
+        <tr><td>Aggregation constant K</td><td>400</td><td>Balance of level and breadth; the unit of the event scale</td></tr>
+        <tr><td>Base population</td><td>Renewed annually</td><td>Frozen distributions between renewals</td></tr>
+      </tbody>
+    </table></div>
+
+    <h2 id="evidence">Evidence</h2>
+    <ul>
+      <li><strong>Finishing orders.</strong> In 2.09 million pairs from 2025–26 rounds, event-rating differences computed from results up to 2024 predict who finishes ahead with a pooled logistic scale of 374 points per tenfold odds (95% CI 371–378), close to the Elo 400. The scale differs by event, from 235–305 for sighted cube events to 737–844 for 5BLD, MBLD, 4BLD and FMC, so equal rating differences do not mean equal head-to-head odds across events.</li>
+      <li><strong>New events.</strong> As a predictor of the rating in an event entered later, Kelso ranks behind the mean and the best event rating (Spearman 0.387 vs 0.469 and 0.406), ahead of Sum of Ranks and Kinch — by design, its breadth term carries no information about the new event.</li>
+      <li><strong>Sensitivity.</strong> The top of the ranking is stable under the bandwidth, the blindfolded format and K between 300 and 500 (rank-biased overlap ≥ 0.90). It changes substantially only when a defining choice is replaced: typical instead of best results, separate level and breadth constants, head-to-head rescaling, or K = 1300.</li>
+      <li><strong>Uncertainty.</strong> The median width of a 95% interval is 274 points in the top 20, 148 in the top 100 and 47 in the top 1000 (conversion bootstrap). Below the leader, neighbouring ranks are usually not distinguishable.</li>
+    </ul>
+
+    <h2 id="data">How the data is gathered</h2>
+    <p>Official results come from the <a href="https://www.worldcubeassociation.org/export/results">WCA results export</a>, regenerated daily. Competitions that are running, or have ended but are not yet in the export, are read from their public WCIF — the format that carries live results for both WCA Live and the WCA website's own scoretaking.</p>
+    <figure>
+      <svg class="diagram" viewBox="0 0 1000 440" role="img" aria-labelledby="dg-t">
+        <title id="dg-t">Data flow: daily pipeline from the WCA export to an immutable SQLite file; live estimates on request from the public WCIF.</title>
+        <defs>
+          <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z"/></marker>
+          <marker id="ahb" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z"/></marker>
+        </defs>
+        <text class="lane" x="10" y="22">Daily · python -m kelso update (cron checks hourly)</text>
+        <rect class="ext" x="10" y="40" width="170" height="78" rx="9"/>
+        <text x="95" y="70" text-anchor="middle">WCA export</text>
+        <text class="sub" x="95" y="88" text-anchor="middle">metadata: export_date</text>
+        <text class="sub" x="95" y="103" text-anchor="middle">1 KB when nothing changed</text>
+        <rect class="box" x="207" y="40" width="170" height="78" rx="9"/>
+        <text x="292" y="70" text-anchor="middle">Ranged download</text>
+        <text class="sub" x="292" y="88" text-anchor="middle">5 of 16 zip members</text>
+        <text class="sub" x="292" y="103" text-anchor="middle">~130 of 380 MB · ~20 s</text>
+        <rect class="box" x="404" y="40" width="170" height="78" rx="9"/>
+        <text x="489" y="70" text-anchor="middle">Ingest</text>
+        <text class="sub" x="489" y="88" text-anchor="middle">7.0 M results, streamed</text>
+        <text class="sub" x="489" y="103" text-anchor="middle">→ 4.7 M best per comp</text>
+        <rect class="box hot" x="601" y="40" width="170" height="78" rx="9"/>
+        <text x="686" y="70" text-anchor="middle">Build</text>
+        <text class="sub" x="686" y="88" text-anchor="middle">PB history · ratings · ranks</text>
+        <text class="sub" x="686" y="103" text-anchor="middle">history = cumsum of odds</text>
+        <rect class="box" x="798" y="40" width="190" height="78" rx="9"/>
+        <text x="893" y="70" text-anchor="middle">SQLite file</text>
+        <text class="sub" x="893" y="88" text-anchor="middle">immutable, one per export</text>
+        <text class="sub" x="893" y="103" text-anchor="middle">atomic symlink swap</text>
+        <path class="arrow" d="M180,79 H203"/><path class="arrow" d="M377,79 H400"/><path class="arrow" d="M574,79 H597"/><path class="arrow" d="M771,79 H794"/>
+
+        <rect class="box" x="601" y="160" width="170" height="70" rx="9"/>
+        <text x="686" y="188" text-anchor="middle">Frozen base</text>
+        <text class="sub" x="686" y="206" text-anchor="middle">annual renewal: 33 kernel</text>
+        <text class="sub" x="686" y="220" text-anchor="middle">fits → conversion tables</text>
+        <path class="arrow" d="M686,160 V122"/>
+        <text class="sub" x="478" y="178" text-anchor="end">renewal reads the same</text>
+        <text class="sub" x="478" y="194" text-anchor="end">ingested export (~1 min)</text>
+        <path class="arrow" d="M489,118 V195 H597"/>
+
+        <line x1="10" y1="262" x2="990" y2="262" stroke="var(--line)" stroke-dasharray="2 4"/>
+        <text class="lane" x="10" y="290">On request · web server</text>
+        <rect class="box" x="10" y="320" width="150" height="78" rx="9"/>
+        <text x="85" y="352" text-anchor="middle">Browser</text>
+        <text class="sub" x="85" y="370" text-anchor="middle">HTML pages · small JS</text>
+        <text class="sub" x="85" y="385" text-anchor="middle">calculator runs locally</text>
+        <rect class="box hot" x="300" y="320" width="270" height="78" rx="9"/>
+        <text x="435" y="352" text-anchor="middle">Kelso web</text>
+        <text class="sub" x="435" y="370" text-anchor="middle">read-only SQLite (immutable=1)</text>
+        <text class="sub" x="435" y="385" text-anchor="middle">in-memory rank index · conversion tables</text>
+        <rect class="ext" x="740" y="320" width="248" height="78" rx="9"/>
+        <text x="864" y="352" text-anchor="middle">WCA API + public WCIF</text>
+        <text class="sub" x="864" y="370" text-anchor="middle">competition lists (15 min cache)</text>
+        <text class="sub" x="864" y="385" text-anchor="middle">live results (2 min · 1 h cache)</text>
+        <path class="arrow" d="M160,352 H296"/><path class="arrow" d="M296,368 H164"/>
+        <text class="sub" x="228" y="344" text-anchor="middle">pages, JSON</text>
+        <path class="arrow live" d="M570,359 H736"/>
+        <text class="sub" x="653" y="350" text-anchor="middle">only when a live page</text>
+        <text class="sub" x="653" y="380" text-anchor="middle">is opened · single flight</text>
+        <path class="arrow" d="M893,118 V290 H500 V316"/>
+        <path class="arrow" d="M686,230 V275 H400 V316"/>
+      </svg>
+      <figcaption>Daily pipeline (top) and request path (bottom). Dashed boxes are WCA services; the blue dashed arrow is the only upstream call made while serving pages.</figcaption>
+    </figure>
+    <ul>
+      <li><strong>When.</strong> A cron job asks the WCA export endpoint for the export date every hour — a 1 KB request. Only when a new export appears (once a day) does the pipeline run.</li>
+      <li><strong>Only what is needed.</strong> The export is a single zip, but each member is compressed separately and the directory sits at the end. With HTTP range requests the pipeline reads the directory and then only persons, competitions, results, countries and continents — about a third of the archive. Scrambles and individual attempts are never downloaded.</li>
+      <li><strong>Fast build.</strong> Results are reduced to each competitor's best single and average per competition (6.98 M rows → 4.73 M). Every personal best that ever stood is rated through the frozen tables; because the overall rating is <span class="tex" data-tex="400\log_{10}"></span> of a sum of odds, each competitor's whole history is a cumulative sum of odds increments. The last build took {{ timings.total }} s{% if timings.insert %} ({{ timings.insert - timings.current }} s of it writing SQLite){% endif %}.</li>
+      <li><strong>Zero-downtime publish.</strong> Each build writes a new SQLite file; a symlink is swapped atomically and the web server opens it read-only with <code>immutable=1</code>, so readers never see a half-written database and need no locks.</li>
+      <li><strong>Live competitions.</strong> Nothing is polled in the background. When someone opens a running competition, the server fetches its public WCIF at most once every two minutes (once an hour after it ended), with a single request in flight per competition, and rates new personal bests against the frozen base. These are labelled estimates until the official export includes the competition.</li>
+    </ul>
+    <p class="small muted">Current database: export {{ meta.export_date }}, format {{ meta.export_format_version }}, built {{ meta.built_at }}.</p>
+
+    <h2 id="limits">Limitations</h2>
+    <ul>
+      <li><strong>Linking conditions.</strong> Only 2x2 meets the threshold for a concordance, and conversions vary with cohort and region by 7–74 points. The relative placement of events is a documented convention.</li>
+      <li><strong>Event scales.</strong> Rating differences translate into different head-to-head odds in different events.</li>
+      <li><strong>Correlated events.</strong> Events that share skills receive independent breadth credit; the 17 events carry about 2.1 effective dimensions.</li>
+      <li><strong>Personal bests and exposure.</strong> A personal best is the best of a varying number of attempts; frequent competitors have more chances. The rating credits the best result obtained, as the WCA rankings do.</li>
+      <li><strong>Field dependence.</strong> Ratings depend on who else competes; under the frozen base this shows up once a year, at renewal.</li>
+      <li><strong>Live estimates</strong> use unofficial results and treat each pending competition separately from other pending ones.</li>
+    </ul>
+  </article>
+</div>
+{% endblock %}
+{% block scripts %}
+<script src="/static/katex/katex.min.js"></script>
+<script>
+document.querySelectorAll(".eq[data-tex], .tex[data-tex]").forEach(function (el) {
+  try { katex.render(el.dataset.tex, el, { displayMode: el.classList.contains("eq"), throwOnError: false }); } catch (e) { el.textContent = el.dataset.tex; }
+});
+</script>
+{% endblock %}

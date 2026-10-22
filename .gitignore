@@ -1,0 +1,6 @@
+# data: export downloads, ingested parquet, bases, built databases, caches
+data/
+.venv/
+__pycache__/
+*.pyc
+.DS_Store

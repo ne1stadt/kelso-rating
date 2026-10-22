@@ -1,0 +1,21 @@
+{% macro flag(country_id) -%}
+{%- set c = countries.get(country_id) -%}
+{%- if c and c.iso2 and c.iso2|lower in FLAGS -%}<img class="flag" loading="lazy" alt="{{ c.iso2 }}" title="{{ c.name }}" src="/static/flags/{{ c.iso2|lower }}.svg">{%- endif -%}
+{%- endmacro %}
+{% macro icon(e, title=None) -%}<span class="cubing-icon event-{{ e }}" title="{{ title or EVENT_NAMES[e] }}"></span>{%- endmacro %}
+{% macro flag_iso(iso2) -%}
+{%- if iso2 and iso2|lower in FLAGS -%}<img class="flag" loading="lazy" alt="{{ iso2 }}" src="/static/flags/{{ iso2|lower }}.svg">{%- endif -%}
+{%- endmacro %}
+{% macro pager(page, pages, url) -%}
+{% if pages > 1 %}<nav class="pager" aria-label="Pages">
+  {% if page > 1 %}<a href="{{ url(page - 1) }}" rel="prev">‹</a>{% endif %}
+  {% set lo = [1, page - 3]|max %}{% set hi = [pages, page + 3]|min %}
+  {% if lo > 1 %}<a href="{{ url(1) }}">1</a>{% if lo > 2 %}<span>…</span>{% endif %}{% endif %}
+  {% for i in range(lo, hi + 1) %}{% if i == page %}<span class="on">{{ i }}</span>{% else %}<a href="{{ url(i) }}">{{ i }}</a>{% endif %}{% endfor %}
+  {% if hi < pages %}{% if hi < pages - 1 %}<span>…</span>{% endif %}<a href="{{ url(pages) }}">{{ pages }}</a>{% endif %}
+  {% if page < pages %}<a href="{{ url(page + 1) }}" rel="next">›</a>{% endif %}
+</nav>{% endif %}
+{%- endmacro %}
+{% macro changes(list) -%}
+<span class="improved">{% for h in list %}<span class="imp" title="{{ EVENT_NAMES[h.e] }}: {{ h.raw|result(h.e) }} → {{ h.r|rating }}{% if h.prev is not none %} (was {{ h.prev|rating }}){% endif %}">{{ icon(h.e) }}<span>{{ h.r|rating }}{% if h.prev is not none %} <span class="up small">{{ (h.r - h.prev)|delta }}</span>{% else %} <span class="muted small">new</span>{% endif %}</span></span>{% endfor %}</span>
+{%- endmacro %}

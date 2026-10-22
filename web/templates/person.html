@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% from "_macros.html" import flag, icon, changes with context %}
+{% set active = 'rankings' %}
+{% block title %}{{ p.name }} · Kelso {{ p.overall|rating }}{% endblock %}
+{% block description %}{{ p.name }} ({{ p.wca_id }}): Kelso rating {{ p.overall|rating }}{% if p.rank_world %}, world rank {{ p.rank_world|int }}{% endif %}.{% endblock %}
+{% block main %}
+<div class="person-head">
+  <div>
+    <h1>{{ p.name }}</h1>
+    <div class="person-meta">
+      <span>{{ flag(p.country_id) }} {{ country.name if country else p.country_id }}</span>
+      <a href="https://www.worldcubeassociation.org/persons/{{ p.wca_id }}" rel="noopener">{{ p.wca_id }} ↗</a>
+      <span>{{ p.n_comps }} competition{{ 's' if p.n_comps != 1 }}{% if p.first_date %} since {{ p.first_date[:4] }}{% endif %}</span>
+      <span>{{ p.n_events }} event{{ 's' if p.n_events != 1 }} rated</span>
+    </div>
+  </div>
+  {% if p.overall is not none %}
+  <div class="score">
+    <div class="lbl">Kelso rating</div>
+    <div class="big">{{ p.overall|rating }}</div>
+    <div class="muted small">{{ top|top_share }} of {{ '{:,}'.format(stats.rated) }}</div>
+  </div>
+  {% endif %}
+</div>
+
+{% if p.overall is none %}
+<p class="lede">No valid result in a rated event yet, so there is no rating.</p>
+{% else %}
+<div class="ranks">
+  <div class="card"><div class="k">World</div><div class="v">{{ p.rank_world|int }}</div></div>
+  <div class="card"><div class="k">{{ continent.name if continent else 'Continent' }}</div><div class="v"><a href="/?region={{ p.continent_id }}&page={{ ((p.rank_continent - 1) // 100 + 1)|int }}">{{ p.rank_continent|int }}</a></div></div>
+  <div class="card"><div class="k">{{ country.name if country else 'Country' }}</div><div class="v"><a href="/?region={{ country.iso2 if country }}&page={{ ((p.rank_country - 1) // 100 + 1)|int }}">{{ p.rank_country|int }}</a></div></div>
+  <div class="card"><div class="k">Best event</div><div class="v">{{ icon(best.event) }} {{ best.rating|rating }}</div></div>
+</div>
+<div class="decomp small">
+  Overall <b>{{ p.overall|rating }}</b> = best event <b>{{ best.rating|rating }}</b> + breadth <b>{{ (p.overall - best.rating)|round|int }}</b>
+  <span class="muted">· overall odds are the sum of event odds: 10<sup>(R−1200)/400</sup> = Σ ω<sub>e</sub></span>
+</div>
+
+<section class="card chart-card">
+  <div class="chart-head">
+    <h2 id="chart-title">Rating history</h2>
+    <div class="series-pick" role="tablist" aria-label="Series">
+      <button class="on" data-s="overall">Overall</button>
+      {% for e in evs %}<button data-s="{{ e.event }}" title="{{ EVENT_NAMES[e.event] }}">{{ icon(e.event) }}</button>{% endfor %}
+    </div>
+  </div>
+  <div class="chart" id="chart"></div>
+  <div class="muted small">Ratings after each competition where a personal best improved, measured against the current reference field (base {{ meta.base_id }}).</div>
+</section>
+
+<h2>Events</h2>
+<div class="table-wrap">
+<table class="t">
+  <thead><tr><th>Event</th><th class="num">Result</th><th class="num">Rating</th><th class="num hide-sm">World</th><th class="num hide-sm">{{ country.iso2 if country else 'Country' }}</th><th title="Share of the competitor's summed odds (eq. 5)">Weight in overall</th><th class="hide-sm">Set at</th></tr></thead>
+  <tbody>
+  {% for e in evs %}
+    <tr>
+      <td class="nowrap">{{ icon(e.event) }} <a href="/?event={{ e.event }}&page={{ ((e.rank_world - 1) // 100 + 1)|int }}">{{ EVENT_SHORT[e.event] }}</a></td>
+      <td class="num">{{ e.raw|result(e.event) }}</td>
+      <td class="num rating">{{ e.rating|rating }}</td>
+      <td class="num hide-sm">{{ e.rank_world|int }}</td>
+      <td class="num hide-sm">{{ e.rank_country|int }}</td>
+      <td><div class="share"><div class="bar"><i style="width:{{ '%.1f'|format(e.share * 100) }}%"></i></div><span>{{ '%.0f'|format(e.share * 100) if e.share >= 0.005 else '<1' }}%</span></div></td>
+      <td class="hide-sm small">{% if e.comp_id %}<a href="/competitions/{{ e.comp_id }}">{{ e.comp_name }}</a>{% endif %}</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div>
+{% endif %}
+
+<h2>Competitions</h2>
+<div class="table-wrap">
+<table class="t">
+  <thead><tr><th>Competition</th><th class="hide-sm">Date</th><th class="num">Before</th><th class="num">After</th><th class="num">Change</th><th class="hide-sm">Improved events</th></tr></thead>
+  <tbody>
+  {% for c in comps %}
+    {% set imp = improved.get(c.id, []) %}
+    <tr>
+      <td>{{ flag(c.country_id) }} <a href="/competitions/{{ c.id }}">{{ c.name }}</a></td>
+      <td class="hide-sm nowrap muted small">{{ c.end_date }}</td>
+      <td class="num">{{ c.before|rating }}</td>
+      <td class="num rating">{{ c.after|rating }}</td>
+      <td class="num">{% if c.before is none and c.after is not none %}<span class="chip">first</span>{% elif c.after is not none and c.after - c.before >= 0.5 %}<span class="up">{{ (c.after - c.before)|delta }}</span>{% else %}<span class="muted">±0</span>{% endif %}</td>
+      <td class="hide-sm">{{ changes(imp) }}</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div>
+{% endblock %}
+{% block scripts %}
+<script id="chart-data" type="application/json">{{ chart|tojson }}</script>
+<script src="/static/js/chart.js?v={{ STATIC_V }}"></script>
+{% endblock %}

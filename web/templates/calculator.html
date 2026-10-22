@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% from "_macros.html" import icon with context %}
+{% set active = 'calculator' %}
+{% block title %}Rating calculator · Kelso{% endblock %}
+{% block main %}
+<div class="page-head">
+  <div>
+    <h1>Rating calculator</h1>
+    <p class="lede" style="margin:0">Enter results to see the rating they would earn. Everything is computed in your browser from the frozen conversion tables of base {{ meta.base_id }} — the same tables that rate new results on this site.</p>
+  </div>
+</div>
+<div class="calc">
+  <div>
+    <div class="calc-tools">
+      <div class="search-inline"><input type="search" id="prefill" placeholder="Start from a competitor…" autocomplete="off" style="width:260px"></div>
+      <button class="btn" id="clear" type="button">Clear</button>
+      <button class="btn" id="share" type="button" title="Copy a link with these results">Copy link</button>
+      <span class="muted small" id="prefill-note"></span>
+    </div>
+    <div class="calc-grid" id="calc-grid">
+      {% for e in EVENT_META %}
+      <div class="calc-ev">
+        {{ icon(e.id) }}
+        <label for="in-{{ e.id }}">{{ e.short }}<small>{% if e.id == '333mbf' %}solved/attempted time{% elif e.id == '333fm' %}mean of moves{% elif e.id in ['333bf','444bf','555bf'] %}single{% elif e.id in ['666','777'] %}mean of 3{% else %}average{% endif %}</small></label>
+        <input id="in-{{ e.id }}" data-e="{{ e.id }}" inputmode="decimal" placeholder="{% if e.id == '333mbf' %}30/32 55:00{% elif e.id == '333fm' %}28.33{% else %}m:ss.cc{% endif %}" autocomplete="off">
+        <span class="r" id="r-{{ e.id }}"></span>
+      </div>
+      {% endfor %}
+    </div>
+    <p class="muted small" style="margin-top:12px">Times as <code>12.34</code> or <code>1:02.34</code>. Averages for most events (mean of 3 for 6x6, 7x7 and FMC), single for the blindfolded events, MBLD as <code>solved/attempted time</code>.
+      Results faster than anything in the reference field are capped by the event's ceiling (<a href="/about#calculation">why</a>).</p>
+  </div>
+  <aside class="card calc-out" aria-live="polite">
+    <div class="muted small">Overall Kelso rating</div>
+    <div class="big" id="out-overall">–</div>
+    <dl>
+      <dt>World rank</dt><dd id="out-rank">–</dd>
+      <dt>Percentile</dt><dd id="out-top">–</dd>
+      <dt>Best event</dt><dd id="out-best">–</dd>
+      <dt>Breadth credit</dt><dd id="out-breadth">–</dd>
+      <dt>Events</dt><dd id="out-n">0</dd>
+      <dt id="out-vs-k" hidden>vs current rating</dt><dd id="out-vs" hidden></dd>
+    </dl>
+  </aside>
+</div>
+{% endblock %}
+{% block scripts %}<script src="/static/js/calculator.js?v={{ STATIC_V }}"></script>{% endblock %}

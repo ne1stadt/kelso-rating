@@ -1,0 +1,31 @@
+{
+ "Kinch": {
+  "all": 0.98,
+  "top1000": 0.33,
+  "top100_overlap": 39
+ },
+ "Sum of Ranks": {
+  "all": 0.97,
+  "top1000": 0.21,
+  "top100_overlap": 30
+ },
+ "Euclidean above 1000": {
+  "all": 0.99,
+  "top1000": 0.43,
+  "top100_overlap": 50
+ },
+ "Best event": {
+  "all": 0.98,
+  "top1000": 0.76,
+  "top100_overlap": 73
+ },
+ "Mean of event ratings": {
+  "all": 0.95,
+  "top1000": 0.58,
+  "top100_overlap": 52
+ },
+ "Kinch_vs_SoR": 0.97,
+ "lse_leaders": 3707,
+ "lse_leaders_noclock": 3704,
+ "kinch_median": 1.3
+}

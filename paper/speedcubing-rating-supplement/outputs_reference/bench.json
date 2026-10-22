@@ -1,0 +1,16 @@
+{
+ "cpu": "Model name:                              Intel(R) Xeon(R) Processor @ 2.80GHz",
+ "cores_used": 1,
+ "rows_rounds": 6931594,
+ "competitors": 293518,
+ "build_personal_bests_s": 8.2,
+ "fit_17_distributions_16_links_s": 0.4,
+ "rate_all_s": 5.7,
+ "aggregate_all_s": 0.18,
+ "incremental_competition": {
+  "comp": "Euro2026",
+  "results": 9981,
+  "competitors": 1157,
+  "seconds": 1.527
+ }
+}

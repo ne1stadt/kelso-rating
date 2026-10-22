@@ -1,0 +1,12 @@
+{
+ "n": 40447,
+ "competitors": 18520,
+ "res": {
+  "This rating (K = 400)": 0.387,
+  "Best event": 0.406,
+  "Mean of event ratings": 0.469,
+  "Kinch": 0.328,
+  "Sum of Ranks": 0.34,
+  "Euclidean above F": 0.375
+ }
+}

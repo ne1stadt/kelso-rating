@@ -1,0 +1,1065 @@
+{
+ "fields": [
+  {
+   "event": "3x3",
+   "n": 282266,
+   "med333": 28.4
+  },
+  {
+   "event": "2x2",
+   "n": 183713,
+   "med333": 23.56
+  },
+  {
+   "event": "4x4",
+   "n": 55232,
+   "med333": 14.01
+  },
+  {
+   "event": "5x5",
+   "n": 26952,
+   "med333": 12.2
+  },
+  {
+   "event": "6x6",
+   "n": 12986,
+   "med333": 11.09
+  },
+  {
+   "event": "7x7",
+   "n": 10058,
+   "med333": 10.83
+  },
+  {
+   "event": "3BLD",
+   "n": 12293,
+   "med333": 12.32
+  },
+  {
+   "event": "FMC",
+   "n": 6090,
+   "med333": 10.66
+  },
+  {
+   "event": "OH",
+   "n": 58083,
+   "med333": 14.33
+  },
+  {
+   "event": "Clock",
+   "n": 25360,
+   "med333": 14.04
+  },
+  {
+   "event": "Megaminx",
+   "n": 21217,
+   "med333": 12.18
+  },
+  {
+   "event": "Pyraminx",
+   "n": 125594,
+   "med333": 22.08
+  },
+  {
+   "event": "Skewb",
+   "n": 70902,
+   "med333": 18.16
+  },
+  {
+   "event": "Square-1",
+   "n": 19348,
+   "med333": 12.43
+  },
+  {
+   "event": "4BLD",
+   "n": 2194,
+   "med333": 10.91
+  },
+  {
+   "event": "5BLD",
+   "n": 1144,
+   "med333": 10.72
+  },
+  {
+   "event": "MBLD",
+   "n": 4300,
+   "med333": 11.43
+  }
+ ],
+ "diag": [
+  {
+   "event": "2x2",
+   "n": 177448,
+   "rho": 0.88,
+   "skew_e": 0.41,
+   "skew_3": 0.27,
+   "lin_minus_eq": 144,
+   "se_top1": 3,
+   "remsd_c": 8,
+   "remsd_c_rand": 1,
+   "remsd_r": 19,
+   "remsd_r_rand": 2
+  },
+  {
+   "event": "4x4",
+   "n": 54935,
+   "rho": 0.84,
+   "skew_e": 0.37,
+   "skew_3": 0.5,
+   "lin_minus_eq": -18,
+   "se_top1": 6,
+   "remsd_c": 16,
+   "remsd_c_rand": 1,
+   "remsd_r": 9,
+   "remsd_r_rand": 2
+  },
+  {
+   "event": "5x5",
+   "n": 26806,
+   "rho": 0.75,
+   "skew_e": 0.4,
+   "skew_3": 0.56,
+   "lin_minus_eq": 13,
+   "se_top1": 9,
+   "remsd_c": 14,
+   "remsd_c_rand": 2,
+   "remsd_r": 17,
+   "remsd_r_rand": 4
+  },
+  {
+   "event": "6x6",
+   "n": 12931,
+   "rho": 0.67,
+   "skew_e": 0.26,
+   "skew_3": 0.58,
+   "lin_minus_eq": 35,
+   "se_top1": 14,
+   "remsd_c": 7,
+   "remsd_c_rand": 4,
+   "remsd_r": 25,
+   "remsd_r_rand": 6
+  },
+  {
+   "event": "7x7",
+   "n": 10008,
+   "rho": 0.59,
+   "skew_e": 0.11,
+   "skew_3": 0.56,
+   "lin_minus_eq": 74,
+   "se_top1": 17,
+   "remsd_c": 11,
+   "remsd_c_rand": 4,
+   "remsd_r": 35,
+   "remsd_r_rand": 7
+  },
+  {
+   "event": "3BLD",
+   "n": 12099,
+   "rho": 0.35,
+   "skew_e": -0.58,
+   "skew_3": 0.74,
+   "lin_minus_eq": 451,
+   "se_top1": 17,
+   "remsd_c": 21,
+   "remsd_c_rand": 4,
+   "remsd_r": 37,
+   "remsd_r_rand": 8
+  },
+  {
+   "event": "FMC",
+   "n": 6058,
+   "rho": 0.47,
+   "skew_e": -0.4,
+   "skew_3": 0.78,
+   "lin_minus_eq": 401,
+   "se_top1": 21,
+   "remsd_c": 43,
+   "remsd_c_rand": 5,
+   "remsd_r": 28,
+   "remsd_r_rand": 12
+  },
+  {
+   "event": "OH",
+   "n": 57833,
+   "rho": 0.84,
+   "skew_e": 0.36,
+   "skew_3": 0.5,
+   "lin_minus_eq": 28,
+   "se_top1": 6,
+   "remsd_c": 22,
+   "remsd_c_rand": 1,
+   "remsd_r": 16,
+   "remsd_r_rand": 2
+  },
+  {
+   "event": "Clock",
+   "n": 24903,
+   "rho": 0.54,
+   "skew_e": -0.07,
+   "skew_3": 0.95,
+   "lin_minus_eq": 588,
+   "se_top1": 12,
+   "remsd_c": 74,
+   "remsd_c_rand": 4,
+   "remsd_r": 28,
+   "remsd_r_rand": 7
+  },
+  {
+   "event": "Megaminx",
+   "n": 21079,
+   "rho": 0.67,
+   "skew_e": 0.11,
+   "skew_3": 0.83,
+   "lin_minus_eq": 194,
+   "se_top1": 13,
+   "remsd_c": 20,
+   "remsd_c_rand": 3,
+   "remsd_r": 11,
+   "remsd_r_rand": 6
+  },
+  {
+   "event": "Pyraminx",
+   "n": 119985,
+   "rho": 0.69,
+   "skew_e": -0.3,
+   "skew_3": 0.32,
+   "lin_minus_eq": 840,
+   "se_top1": 5,
+   "remsd_c": 18,
+   "remsd_c_rand": 2,
+   "remsd_r": 20,
+   "remsd_r_rand": 3
+  },
+  {
+   "event": "Skewb",
+   "n": 69682,
+   "rho": 0.67,
+   "skew_e": -0.07,
+   "skew_3": 0.46,
+   "lin_minus_eq": 454,
+   "se_top1": 7,
+   "remsd_c": 12,
+   "remsd_c_rand": 2,
+   "remsd_r": 18,
+   "remsd_r_rand": 3
+  },
+  {
+   "event": "Square-1",
+   "n": 19226,
+   "rho": 0.56,
+   "skew_e": -0.1,
+   "skew_3": 0.6,
+   "lin_minus_eq": 240,
+   "se_top1": 13,
+   "remsd_c": 16,
+   "remsd_c_rand": 3,
+   "remsd_r": 10,
+   "remsd_r_rand": 5
+  },
+  {
+   "event": "4BLD",
+   "n": 2160,
+   "rho": 0.24,
+   "skew_e": -0.26,
+   "skew_3": 0.88,
+   "lin_minus_eq": 313,
+   "se_top1": 35,
+   "remsd_c": 13,
+   "remsd_c_rand": 11,
+   "remsd_r": 52,
+   "remsd_r_rand": 19
+  },
+  {
+   "event": "5BLD",
+   "n": 1128,
+   "rho": 0.21,
+   "skew_e": -0.33,
+   "skew_3": 0.78,
+   "lin_minus_eq": 334,
+   "se_top1": 54,
+   "remsd_c": 33,
+   "remsd_c_rand": 18,
+   "remsd_r": 60,
+   "remsd_r_rand": 27
+  },
+  {
+   "event": "MBLD",
+   "n": 4251,
+   "rho": 0.18,
+   "skew_e": 0.22,
+   "skew_3": 0.84,
+   "lin_minus_eq": 182,
+   "se_top1": 27,
+   "remsd_c": 19,
+   "remsd_c_rand": 8,
+   "remsd_r": 36,
+   "remsd_r_rand": 16
+  }
+ ],
+ "pct": {
+  "0.01": 432,
+  "0.05": 738,
+  "0.1": 881,
+  "0.2": 1044,
+  "0.5": 1346,
+  "0.75": 1620,
+  "0.9": 1908,
+  "0.99": 2444,
+  "0.999": 2819,
+  "0.9999": 3094
+ },
+ "counts": {
+  "n": 293518,
+  "ge2500": 2148,
+  "ge3000": 71,
+  "zero": 254,
+  "max": 3524
+ },
+ "surv": [
+  {
+   "lo": 0,
+   "share": 1.0
+  },
+  {
+   "lo": 100,
+   "share": 0.9984566534250029
+  },
+  {
+   "lo": 200,
+   "share": 0.9972471875660096
+  },
+  {
+   "lo": 300,
+   "share": 0.9951962060248435
+  },
+  {
+   "lo": 400,
+   "share": 0.9916223195851702
+  },
+  {
+   "lo": 500,
+   "share": 0.9858236973541656
+  },
+  {
+   "lo": 600,
+   "share": 0.9754393256972315
+  },
+  {
+   "lo": 700,
+   "share": 0.9587350690587971
+  },
+  {
+   "lo": 800,
+   "share": 0.9316873241164085
+  },
+  {
+   "lo": 900,
+   "share": 0.8911514796366833
+  },
+  {
+   "lo": 1000,
+   "share": 0.832446391703405
+  },
+  {
+   "lo": 1100,
+   "share": 0.7534222773390389
+  },
+  {
+   "lo": 1200,
+   "share": 0.6567467753255337
+  },
+  {
+   "lo": 1300,
+   "share": 0.5499594573416281
+  },
+  {
+   "lo": 1400,
+   "share": 0.44187409290060575
+  },
+  {
+   "lo": 1500,
+   "share": 0.34564490082379956
+  },
+  {
+   "lo": 1600,
+   "share": 0.26468564108504417
+  },
+  {
+   "lo": 1700,
+   "share": 0.19753473381530265
+  },
+  {
+   "lo": 1800,
+   "share": 0.14423987625971832
+  },
+  {
+   "lo": 1900,
+   "share": 0.10292043418120865
+  },
+  {
+   "lo": 2000,
+   "share": 0.07166851777403771
+  },
+  {
+   "lo": 2100,
+   "share": 0.04862052753153129
+  },
+  {
+   "lo": 2200,
+   "share": 0.03236939472195913
+  },
+  {
+   "lo": 2300,
+   "share": 0.020407607029211156
+  },
+  {
+   "lo": 2400,
+   "share": 0.012537561580550426
+  },
+  {
+   "lo": 2500,
+   "share": 0.007318120183429977
+  },
+  {
+   "lo": 2600,
+   "share": 0.004149660327475657
+  },
+  {
+   "lo": 2700,
+   "share": 0.002275839982556436
+  },
+  {
+   "lo": 2800,
+   "share": 0.0011753963981766024
+  },
+  {
+   "lo": 2900,
+   "share": 0.0005655530495574377
+  },
+  {
+   "lo": 3000,
+   "share": 0.0002418931717986631
+  },
+  {
+   "lo": 3100,
+   "share": 9.539449028679672e-05
+  },
+  {
+   "lo": 3200,
+   "share": 4.769724514339836e-05
+  },
+  {
+   "lo": 3300,
+   "share": 2.384862257169918e-05
+  },
+  {
+   "lo": 3400,
+   "share": 6.813892163342623e-06
+  },
+  {
+   "lo": 3500,
+   "share": 3.4069460816713114e-06
+  },
+  {
+   "lo": 3600,
+   "share": 0.0
+  }
+ ],
+ "top20": [
+  [
+   1,
+   "Yiheng Wang",
+   "CN",
+   3524,
+   8,
+   "3x3 3472, 2x2 3274"
+  ],
+  [
+   2,
+   "Timofei Tarasenko",
+   "RU",
+   3417,
+   13,
+   "5x5 3262, 4x4 3161"
+  ],
+  [
+   3,
+   "Tymon Kolasiński",
+   "PL",
+   3396,
+   15,
+   "4x4 3298, 5x5 3074"
+  ],
+  [
+   4,
+   "Zhen Chen",
+   "CN",
+   3378,
+   4,
+   "OH 3369, 3x3 2832"
+  ],
+  [
+   5,
+   "Max Park",
+   "US",
+   3377,
+   8,
+   "4x4 3270, 5x5 3014"
+  ],
+  [
+   6,
+   "Xuanyi Geng",
+   "CN",
+   3341,
+   4,
+   "3x3 3340, 4x4 2446"
+  ],
+  [
+   7,
+   "Sujan Feist",
+   "US",
+   3307,
+   6,
+   "2x2 3306, 3x3 2045"
+  ],
+  [
+   8,
+   "Lingkun Jiang",
+   "CN",
+   3299,
+   4,
+   "Pyraminx 3286, 3x3 2848"
+  ],
+  [
+   9,
+   "Ignacy Samselski",
+   "PL",
+   3283,
+   15,
+   "Skewb 3277, 2x2 2494"
+  ],
+  [
+   10,
+   "Sebastian Lee",
+   "AU",
+   3258,
+   10,
+   "Pyraminx 3249, 2x2 2715"
+  ],
+  [
+   11,
+   "Vojtěch Grohmann",
+   "CZ",
+   3209,
+   15,
+   "Skewb 3201, Megaminx 2449"
+  ],
+  [
+   12,
+   "Teodor Zajder",
+   "PL",
+   3206,
+   14,
+   "2x2 3094, 3x3 3035"
+  ],
+  [
+   13,
+   "Đỗ Quang Hưng",
+   "VN",
+   3206,
+   16,
+   "5x5 3008, 4x4 2997"
+  ],
+  [
+   14,
+   "Ziyu Wu",
+   "CN",
+   3202,
+   10,
+   "Megaminx 3005, 7x7 2915"
+  ],
+  [
+   15,
+   "Nigel Phang",
+   "SG",
+   3198,
+   12,
+   "2x2 3180, Clock 2731"
+  ],
+  [
+   16,
+   "Yize Dong",
+   "CN",
+   3194,
+   4,
+   "3x3 3194, 2x2 2040"
+  ],
+  [
+   17,
+   "Luke Garrett",
+   "US",
+   3192,
+   17,
+   "OH 3050, 3x3 2895"
+  ],
+  [
+   18,
+   "Seung Hyuk Nahm",
+   "KR",
+   3186,
+   13,
+   "5x5 2948, 4x4 2930"
+  ],
+  [
+   19,
+   "Zayn Khanani",
+   "US",
+   3176,
+   14,
+   "2x2 3120, Skewb 2916"
+  ],
+  [
+   20,
+   "Brian Johnson",
+   "US",
+   3172,
+   14,
+   "FMC 3050, Square-1 2836"
+  ]
+ ],
+ "examples": [
+  {
+   "level": "Starting",
+   "events": {
+    "3x3": [
+     45,
+     1014
+    ],
+    "2x2": [
+     15,
+     1038
+    ],
+    "Pyraminx": [
+     20,
+     1055
+    ]
+   },
+   "single": 1014,
+   "best": 1055,
+   "overall": 1227
+  },
+  {
+   "level": "Intermediate",
+   "events": {
+    "3x3": [
+     20,
+     1345
+    ],
+    "2x2": [
+     7,
+     1344
+    ],
+    "Pyraminx": [
+     8,
+     1617
+    ],
+    "Skewb": [
+     9,
+     1584
+    ],
+    "4x4": [
+     90,
+     1387
+    ],
+    "OH": [
+     40,
+     1439
+    ]
+   },
+   "single": 1345,
+   "best": 1617,
+   "overall": 1800
+  },
+  {
+   "level": "Advanced",
+   "events": {
+    "3x3": [
+     10,
+     1799
+    ],
+    "2x2": [
+     3.5,
+     1790
+    ],
+    "Pyraminx": [
+     4.5,
+     1935
+    ],
+    "Skewb": [
+     5,
+     1931
+    ],
+    "4x4": [
+     40,
+     1865
+    ],
+    "5x5": [
+     80,
+     1835
+    ],
+    "OH": [
+     16,
+     1976
+    ],
+    "3BLD": [
+     60,
+     1946
+    ]
+   },
+   "single": 1799,
+   "best": 1976,
+   "overall": 2258
+  },
+  {
+   "level": "top100_few",
+   "name": "Yufang Du",
+   "rank": 44,
+   "n": 1,
+   "events": {
+    "3x3": 3056
+   },
+   "best": 3056,
+   "overall": 3056
+  },
+  {
+   "level": "top100_many",
+   "name": "Danny Morgan",
+   "rank": 99,
+   "n": 16,
+   "events": {
+    "Clock": 2736,
+    "5x5": 2675,
+    "6x6": 2583,
+    "7x7": 2561
+   },
+   "best": 2736,
+   "overall": 2970
+  }
+ ],
+ "super": {
+  "events": {
+   "3x3": 3376,
+   "2x2": 3264,
+   "4x4": 3258,
+   "5x5": 3256,
+   "6x6": 3057,
+   "7x7": 2992,
+   "3BLD": 2980,
+   "FMC": 3185,
+   "OH": 3308,
+   "Clock": 3078,
+   "Megaminx": 3125,
+   "Pyraminx": 3264,
+   "Skewb": 3258,
+   "Square-1": 3004,
+   "4BLD": 3166,
+   "5BLD": 3141,
+   "MBLD": 2873
+  },
+  "overall": 3690,
+  "no_clock": 3685
+ },
+ "ceilings": [
+  {
+   "event": "3x3",
+   "n": 282266,
+   "slowest": 0,
+   "median": 1200,
+   "leader": 3472,
+   "own": 3472,
+   "rank_if_only": 2
+  },
+  {
+   "event": "2x2",
+   "n": 183713,
+   "slowest": 0,
+   "median": 1267,
+   "leader": 3306,
+   "own": 3299,
+   "rank_if_only": 8
+  },
+  {
+   "event": "4x4",
+   "n": 55232,
+   "slowest": 459,
+   "median": 1533,
+   "leader": 3298,
+   "own": 3077,
+   "rank_if_only": 9
+  },
+  {
+   "event": "5x5",
+   "n": 26952,
+   "slowest": 657,
+   "median": 1629,
+   "leader": 3262,
+   "own": 2983,
+   "rank_if_only": 10
+  },
+  {
+   "event": "6x6",
+   "n": 12986,
+   "slowest": 932,
+   "median": 1705,
+   "leader": 3020,
+   "own": 2887,
+   "rank_if_only": 65
+  },
+  {
+   "event": "7x7",
+   "n": 10058,
+   "slowest": 940,
+   "median": 1726,
+   "leader": 2975,
+   "own": 2732,
+   "rank_if_only": 90
+  },
+  {
+   "event": "3BLD",
+   "n": 12293,
+   "slowest": 606,
+   "median": 1623,
+   "leader": 2955,
+   "own": 2754,
+   "rank_if_only": 115
+  },
+  {
+   "event": "FMC",
+   "n": 6090,
+   "slowest": 673,
+   "median": 1734,
+   "leader": 3050,
+   "own": 2646,
+   "rank_if_only": 46
+  },
+  {
+   "event": "OH",
+   "n": 58083,
+   "slowest": 442,
+   "median": 1519,
+   "leader": 3369,
+   "own": 3236,
+   "rank_if_only": 6
+  },
+  {
+   "event": "Clock",
+   "n": 25360,
+   "slowest": 0,
+   "median": 1529,
+   "leader": 3020,
+   "own": 2992,
+   "rank_if_only": 65
+  },
+  {
+   "event": "Megaminx",
+   "n": 21217,
+   "slowest": 516,
+   "median": 1630,
+   "leader": 3066,
+   "own": 3012,
+   "rank_if_only": 40
+  },
+  {
+   "event": "Pyraminx",
+   "n": 125594,
+   "slowest": 0,
+   "median": 1293,
+   "leader": 3286,
+   "own": 3285,
+   "rank_if_only": 9
+  },
+  {
+   "event": "Skewb",
+   "n": 70902,
+   "slowest": 0,
+   "median": 1386,
+   "leader": 3277,
+   "own": 3179,
+   "rank_if_only": 10
+  },
+  {
+   "event": "Square-1",
+   "n": 19348,
+   "slowest": 637,
+   "median": 1613,
+   "leader": 2980,
+   "own": 2870,
+   "rank_if_only": 87
+  },
+  {
+   "event": "4BLD",
+   "n": 2194,
+   "slowest": 736,
+   "median": 1717,
+   "leader": 2892,
+   "own": 2646,
+   "rank_if_only": 179
+  },
+  {
+   "event": "5BLD",
+   "n": 1144,
+   "slowest": 738,
+   "median": 1727,
+   "leader": 2888,
+   "own": 2516,
+   "rank_if_only": 183
+  },
+  {
+   "event": "MBLD",
+   "n": 4300,
+   "slowest": 1005,
+   "median": 1669,
+   "leader": 2840,
+   "own": 2523,
+   "rank_if_only": 258
+  }
+ ],
+ "minus3": [
+  {
+   "from": 60,
+   "to": 57,
+   "r0": 877,
+   "r1": 902
+  },
+  {
+   "from": 45,
+   "to": 42,
+   "r0": 1014,
+   "r1": 1044
+  },
+  {
+   "from": 30,
+   "to": 27,
+   "r0": 1179,
+   "r1": 1220
+  },
+  {
+   "from": 25,
+   "to": 22,
+   "r0": 1251,
+   "r1": 1304
+  },
+  {
+   "from": 20,
+   "to": 17,
+   "r0": 1345,
+   "r1": 1423
+  },
+  {
+   "from": 15,
+   "to": 12,
+   "r0": 1492,
+   "r1": 1642
+  },
+  {
+   "from": 12,
+   "to": 9,
+   "r0": 1642,
+   "r1": 1911
+  },
+  {
+   "from": 10,
+   "to": 7,
+   "r0": 1799,
+   "r1": 2255
+  },
+  {
+   "from": 9,
+   "to": 6,
+   "r0": 1911,
+   "r1": 2529
+  },
+  {
+   "from": 8,
+   "to": 5,
+   "r0": 2057,
+   "r1": 2860
+  }
+ ],
+ "tenpct": {
+  "60": 52,
+  "30": 41,
+  "20": 49,
+  "10": 112,
+  "8": 152,
+  "6": 193
+ },
+ "ladder": {
+  "60": 877,
+  "30": 1179,
+  "20": 1345,
+  "15": 1492,
+  "10": 1799,
+  "7": 2255,
+  "5": 2860
+ },
+ "breadth": {
+  "two_equal": 120,
+  "seventeen": 492,
+  "second": {
+   "2000": 120,
+   "1600": 17,
+   "1200": 2,
+   "800": 0
+  }
+ },
+ "bld_example": [
+  1642,
+  1607,
+  1746
+ ],
+ "clock": {
+  "n": 25360,
+  "only": 243,
+  "mean_top100": -7.4,
+  "max_top100": -378.9,
+  "best_top1000": 75
+ },
+ "clock_losers": [
+  [
+   "Noh HyunJin",
+   2664,
+   -1001,
+   859,
+   63440
+  ],
+  [
+   "Volodymyr Kapustianskyi",
+   2941,
+   -676,
+   129,
+   6546
+  ],
+  [
+   "Miguel Ángel Meza",
+   2677,
+   -568,
+   765,
+   12815
+  ],
+  [
+   "Haoxuan Zhang",
+   2633,
+   -496,
+   979,
+   11298
+  ],
+  [
+   "Dylan Heerikhuisen",
+   2741,
+   -461,
+   482,
+   5838
+  ]
+ ]
+}

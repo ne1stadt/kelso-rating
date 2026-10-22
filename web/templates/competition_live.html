@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% set active = 'competitions' %}
+{% block title %}{{ comp_id }} · Kelso estimates{% endblock %}
+{% block main %}
+<div class="page-head">
+  <div>
+    <div class="muted small"><a href="/competitions">Competitions</a> / <span id="state">not yet in the official export</span></div>
+    <h1 id="comp-name">{{ comp_id }}</h1>
+    <div class="person-meta">
+      <span id="comp-meta"></span>
+      <a href="https://www.worldcubeassociation.org/competitions/{{ comp_id }}" rel="noopener">WCA page ↗</a>
+    </div>
+  </div>
+  <span class="chip est" title="Computed from unofficial live results">Estimated</span>
+</div>
+<div id="live-out" data-comp="{{ comp_id }}"></div>
+<p class="muted small" style="margin-top:12px">Estimates use live (unofficial) results from the competition's public WCIF and each competitor's personal bests in the latest export ({{ meta.export_date[:10] }}).
+  Results can still change until the WCA posts them; official numbers replace these once the competition is in the export.</p>
+{% endblock %}
+{% block scripts %}<script src="/static/js/live.js?v={{ STATIC_V }}"></script>{% endblock %}

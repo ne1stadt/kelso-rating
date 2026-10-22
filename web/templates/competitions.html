@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% from "_macros.html" import flag, flag_iso, icon with context %}
+{% set active = 'competitions' %}
+{% block title %}Competitions · Kelso{% endblock %}
+{% block main %}
+<div class="page-head">
+  <div>
+    <h1>Competitions</h1>
+    <p class="lede" style="margin:0">How each competition moved its competitors' ratings. Running and recently ended competitions show estimates from live results until the WCA export includes them.</p>
+  </div>
+</div>
+
+<div id="live-lists"></div>
+
+<h2>Official results</h2>
+<div class="table-wrap">
+<table class="t">
+  <thead><tr><th>Competition</th><th class="hide-sm">Place</th><th class="nowrap">Date</th><th class="num">Competitors</th><th class="num" title="Competitors whose rating went up or who got their first rating">Rating up</th></tr></thead>
+  <tbody>
+  {% for c in recent %}
+    <tr>
+      <td>{{ flag(c.country_id) }} <a href="/competitions/{{ c.id }}">{{ c.name }}</a></td>
+      <td class="hide-sm muted small">{{ c.city }}</td>
+      <td class="nowrap small">{{ c.end_date }}</td>
+      <td class="num">{{ c.competitors }}</td>
+      <td class="num">{{ c.n_improved }}</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div>
+<nav class="pager">
+  {% if page > 1 %}<a href="?page={{ page - 1 }}">‹ Newer</a>{% endif %}
+  <span class="on">{{ page }}</span>
+  {% if recent|length == 50 %}<a href="?page={{ page + 1 }}">Older ›</a>{% endif %}
+</nav>
+{% endblock %}
+{% block scripts %}<script src="/static/js/competitions.js?v={{ STATIC_V }}"></script>{% endblock %}

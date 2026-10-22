@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% from "_macros.html" import flag, icon, changes with context %}
+{% set active = 'competitions' %}
+{% block title %}{{ c.name }} · Kelso changes{% endblock %}
+{% block main %}
+<div class="page-head">
+  <div>
+    <div class="muted small"><a href="/competitions">Competitions</a> / official results</div>
+    <h1>{{ c.name }}</h1>
+    <div class="person-meta">
+      <span>{{ flag(c.country_id) }} {{ c.city }}{% if countries.get(c.country_id) %}, {{ countries[c.country_id].name }}{% endif %}</span>
+      <span>{{ c.start_date }}{% if c.end_date != c.start_date %} – {{ c.end_date }}{% endif %}</span>
+      <a href="https://www.worldcubeassociation.org/competitions/{{ c.id }}/results/all" rel="noopener">WCA results ↗</a>
+    </div>
+  </div>
+</div>
+<div class="summary">
+  <div class="card"><div class="k">Competitors</div><div class="v">{{ rows|length }}</div></div>
+  <div class="card"><div class="k">Rating went up</div><div class="v">{{ n_up }}</div></div>
+  <div class="card"><div class="k">First rating</div><div class="v">{{ n_new }}</div></div>
+  <div class="card"><div class="k">Personal bests</div><div class="v">{{ rows|sum(attribute='n_improved') }}</div></div>
+</div>
+<div class="page-head">
+  <h2 style="margin:0">Rating changes</h2>
+  <nav class="sorts" aria-label="Sort">
+    <a href="?sort=gain" class="{{ 'on' if sort == 'gain' }}">Biggest gain</a>
+    <a href="?sort=after" class="{{ 'on' if sort == 'after' }}">Rating</a>
+    <a href="?sort=name" class="{{ 'on' if sort == 'name' }}">Name</a>
+  </nav>
+</div>
+<div class="table-wrap">
+<table class="t">
+  <thead><tr><th>Name</th><th class="num">Before</th><th class="num">After</th><th class="num">Change</th><th class="hide-sm">Improved events (new event rating)</th></tr></thead>
+  <tbody>
+  {% for r in rows %}
+    <tr>
+      <td class="who">{{ flag(r.country_id) }}<a href="/persons/{{ r.wca_id }}">{{ r.name }}</a></td>
+      <td class="num">{{ r.before|rating }}</td>
+      <td class="num rating">{{ r.after|rating }}</td>
+      <td class="num">{% if r.new %}<span class="chip">first</span>{% elif r.gain >= 0.5 %}<span class="up">{{ r.gain|delta }}</span>{% else %}<span class="muted">±0</span>{% endif %}</td>
+      <td class="hide-sm">{{ changes(r.changes) }}</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div>
+<p class="muted small" style="margin-top:12px">Before/after are overall ratings immediately before and after this competition, both measured against the current reference field (base {{ meta.base_id }}).</p>
+{% endblock %}
